@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head>
+	<title>CS496 - Assignment #2</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">	
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css" />
+	<link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
+</head>
+<body>
+	<div data-role="page">
+		<div data-role="header" data-position="fixed">
+			<h1>View Entrys</h1>
+			<div data-role="navbar">
+			<ul>
+				<li><a href="/view" data-icon="navigation">View Entrys</a></li>
+				<li><a href="/add" data-icon="grid">Add Entrys</a></li>
+			</ul>
+			</div><!-- /navbar -->
+		</div><!-- /header -->	
+	
+		<div data-role="content">
+		<form>
+			<input id="filterTable-input" data-type="search" placeholder="Filter Results">
+		</form>
+		<table data-role="table" id="contact-table" data-filter="true" data-input="#filterTable-input" class="ui-responsive">
+			<thead>
+				<tr>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Gender</th>
+				<th>Snacks liked</th>
+				<th>Date of Birth</th>
+				<th></th>
+				<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for entry in entrys %}
+					<tr>
+					<td>{{ entry.name }}</td>
+					<td>{{ entry.email }}</td>
+					<td>{{ entry.gender}}</td>
+					<td>{{ entry.cheetos }} {{ entry.doritos }} {{ entry.fritos }} {{ entry.sunchips }} </td>
+					<td>{{ entry.month }} {{ entry.day }} </td>
+					<td>
+						<form action="/enter" method="post">
+						<input type="hidden" value="delete" name="action">
+						<button name="id" type="submit" value="{{ entry.key.id() }}">Delete</button>
+						</form>
+					</td>
+					<td>
+						<form action="/edit" method="post">
+						<button name="id" type="submit" value="{{ entry.key.id() }}">Edit</button>
+						</form>
+					</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>				
+		</div><!-- /content -->
+	</div><!-- /page -->
+</body>
+</html>
+{% endautoescape %}
